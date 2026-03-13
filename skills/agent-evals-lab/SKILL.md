@@ -14,6 +14,18 @@ description: >-
 
 Turn subjective “agent feels better/worse” into measurable quality signals and actionable fixes.
 
+## Quickstart (5 minutes)
+
+```bash
+python3 scripts/eval_score.py \
+  --input references/eval-cases.sample.json \
+  --risk medium \
+  --strict \
+  --out /tmp/evals_report.json
+```
+
+Expected output: deterministic scorecard with Go/Conditional Go/No-Go verdict, gate reasons, and by-task deltas.
+
 ## Use Cases
 
 - Audit current agent quality before production rollout
@@ -53,13 +65,13 @@ Use 1-5 scale + short evidence note per dimension.
 ## Execution Workflow
 
 1. Build evaluation set
-- Use real cases first, then synthetic gaps
-- Tag each case by task type and risk level
+- Use real cases first, then synthetic gaps.
+- Tag each case by task type and risk level.
 
 2. Run baseline evaluation (deterministic)
-- Capture outputs + tool behavior
-- Score all required dimensions
-- Run `scripts/eval_score.py --input <cases.json>` to produce deterministic aggregate scoring + Go/No-Go baseline verdict
+- Capture outputs + tool behavior.
+- Score all required dimensions.
+- Run `scripts/eval_score.py --input <cases.json> --risk <low|medium|high> --strict`.
 
 3. Identify failure clusters
 - Factual errors
@@ -74,6 +86,13 @@ Use 1-5 scale + short evidence note per dimension.
 
 5. Re-run focused regression set
 - Validate top fixes on high-risk/high-frequency cases
+
+## Deterministic Gates
+
+- Hard gate: high-risk workflows cannot be Go if critical minimum score < threshold.
+- Hard gate: tool reliability average below threshold => no Go.
+- Hard gate: synthetic-only evidence in high-risk mode => no Go.
+- Strict mode applies deterministic thresholds before final recommendation.
 
 ## Required Output Format
 
@@ -111,6 +130,12 @@ Use 1-5 scale + short evidence note per dimension.
 - Go / Conditional Go / No-Go
 - Conditions and next checkpoint date
 
+7. Before/After Delta
+- overall delta
+- critical delta
+- tool reliability delta
+- by-task delta
+
 ## Quality Rules
 
 - Prefer measured evidence over intuition.
@@ -121,4 +146,5 @@ Use 1-5 scale + short evidence note per dimension.
 
 ## Reference
 
-Read `references/eval-templates.md` for reusable case templates and scoring rubrics.
+- Read `references/eval-templates.md` for reusable case templates and scoring rubrics.
+- Read `references/ops-report-template.md` for the release memo format.
