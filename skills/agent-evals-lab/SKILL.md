@@ -56,9 +56,10 @@ Use 1-5 scale + short evidence note per dimension.
 - Use real cases first, then synthetic gaps
 - Tag each case by task type and risk level
 
-2. Run baseline evaluation
+2. Run baseline evaluation (deterministic)
 - Capture outputs + tool behavior
 - Score all required dimensions
+- Run `scripts/eval_score.py --input <cases.json>` to produce deterministic aggregate scoring + Go/No-Go baseline verdict
 
 3. Identify failure clusters
 - Factual errors
@@ -85,6 +86,7 @@ Use 1-5 scale + short evidence note per dimension.
 - Dimension averages
 - By task-type breakdown
 - By risk-level breakdown
+- Deterministic scorer output snapshot
 
 3. Failure Map
 - Cluster name
@@ -98,6 +100,7 @@ Use 1-5 scale + short evidence note per dimension.
 - Effort (S/M/L)
 - Owner
 - Validation test
+- Exact implementation command(s) where applicable
 
 5. Regression Plan (1-2 weeks)
 - Cases to rerun
@@ -114,6 +117,7 @@ Use 1-5 scale + short evidence note per dimension.
 - Separate facts, inferences, and recommendations.
 - Never claim improvement without before/after evidence.
 - For high-risk workflows, require explicit human-in-the-loop checkpoints.
+- Include deterministic aggregate evidence before final Go/No-Go when case data is available.
 
 ## Reference
 
